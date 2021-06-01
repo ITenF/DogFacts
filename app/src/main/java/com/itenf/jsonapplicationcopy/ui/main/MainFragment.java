@@ -31,7 +31,6 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
-    View view;
     private RecyclerView dogRecyclerView;
     private ArrayList<StringBuffer> dogFacts;
     private JSONArray serverList;
@@ -41,15 +40,13 @@ public class MainFragment extends Fragment {
         return new MainFragment();
     }
 
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         // TODO: Use the ViewModel
 
-        dogFacts = new ArrayList<StringBuffer>();
+        dogFacts = new ArrayList<>();
        yourDataTask fetchJsonData = new yourDataTask();
        fetchJsonData.execute();
     }
@@ -59,15 +56,10 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
-
-
         dogRecyclerView = view.findViewById(R.id.dogRecyclerView);
        adapterDog = new DogListAdapter(view.getContext());
         dogRecyclerView.setAdapter(adapterDog);
         dogRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
-        //adapterDog.setHondenLijst(dogFacts);
-       // adapterDog.setHondenLijst(dogFacts);
         return view;
     }
 
@@ -86,11 +78,10 @@ public class MainFragment extends Fragment {
            String str="https://cat-fact.herokuapp.com/facts/random?animal_type=dog&amount=20";
             //String str="https://cat-fact.herokuapp.com/facts";
 
-            URLConnection urlConn = null;
+            URLConnection urlConn;
             BufferedReader bufferedReader = null;
             try
             {
-                Log.i("App" , "doInBackground");
                 URL url = new URL(str);
                 urlConn = url.openConnection();
                 bufferedReader = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
@@ -98,30 +89,26 @@ public class MainFragment extends Fragment {
                 String line;
                 while ((line = bufferedReader.readLine()) != null)
                 {
-                    Log.i("App" , "een regel is " + line);
                     stringBuffer.append(line);
                 }
-                Log.i("App" , "gelukt");
                 serverList = new JSONArray(stringBuffer.toString());
                 return serverList;
 
             }
             catch(Exception ex)
             {
-                Log.e("App", "yourDataTask", ex);
                 //if no results from  server make some results
 
-                StringBuffer hond1 = new StringBuffer("Jaap");
+                StringBuffer hond1 = new StringBuffer("HondFeit 1");
                 dogFacts.add(hond1);
-                StringBuffer hond2 = new StringBuffer("Kees");
+                StringBuffer hond2 = new StringBuffer("HondFeit 2");
                 dogFacts.add(hond2);
-                StringBuffer hond3 = new StringBuffer("Mien");
+                StringBuffer hond3 = new StringBuffer("HondFeit 3");
                 dogFacts.add(hond3);
-                StringBuffer hond4 = new StringBuffer("Klazien");
+                StringBuffer hond4 = new StringBuffer("HondFeit 4");
                 dogFacts.add(hond4);
-                StringBuffer hond5 = new StringBuffer("Vla");
+                StringBuffer hond5 = new StringBuffer("HondFeit 5");
                 dogFacts.add(hond5);
-                Log.i("App" , dogFacts.get(3).toString());
                 return null;
             }
             finally
@@ -160,8 +147,6 @@ public class MainFragment extends Fragment {
                 String oneDogFact =  oneDog.get("text").toString();
                 StringBuffer oneDogFactBuffer = new StringBuffer(oneDogFact);
                 dogFacts.add(oneDogFactBuffer);
-                Log.i("App" , "getDogFacts gelukt");
-
             }catch (Exception e){
                 Log.i("App" , "getDogFacts niet gelukt");
             }

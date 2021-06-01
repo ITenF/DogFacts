@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JsonApplicationCopy</string>
+    <string name="app_name">Dog Facts</string>
     <string name="dog">dog</string>
     <string name="lijst_met_honden">lijst met hondenfeiten</string>
 </resources>
